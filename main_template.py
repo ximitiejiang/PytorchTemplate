@@ -133,14 +133,14 @@ def train(**kwargs):
     '''
     loss_meter = meter.AverageValueMeter()     # 创建平均值量表
     confusion_meter = meter.ConfusionMeter(num_classes)  # 创建混淆量表
-    loss_logger = VisdomPlotLogger('line', win='loss',   # 创建记录仪
+    
+    loss_logger = VisdomPlotLogger('line', win='loss',   # 创建平均值记录仪
                                    opts={'title':'Train Loss'}, 
                                    port=8097, server='localhost')
-    confusion_logger = VisdomLogger('heatmap', win='conf', 
+    confusion_logger = VisdomLogger('heatmap', win='conf',  # 创建混淆矩阵记录仪
                               opts={'title': 'Training Confusion matrix','columnnames': list(range(num_classes)),'rownames': list(range(num_classes))}, 
                               port=8097, server='localhost')
     
-#    previous_loss =1e100
     
     # 5. 训练
     since = time.time()
@@ -183,22 +183,6 @@ def train(**kwargs):
         vis.line(X=np.array(epoch).reshape(1), Y=np.array(accuracy).reshape(1), win='cur',opts={'title':'Train accuracy'}, update='append')
         
 #        model.save() # 每个epoch保存一次
-        
-#        # validate and visualize
-#        val_cm,val_accuracy = val(model,val_dataloader)
-#
-#        vis.plot('val_accuracy',val_accuracy)
-#        vis.log("epoch:{epoch},lr:{lr},loss:{loss},train_cm:{train_cm},val_cm:{val_cm}".format(
-#                    epoch = epoch,loss = loss_meter.value()[0],val_cm = str(val_cm.value()),train_cm=str(confusion_meter.value()),lr=lr))
-        
-        # update learning rate
-#        if loss_meter.value()[0] > previous_loss:          
-#            lr = lr * opt.lr_decay
-#            # 第二种降低学习率的方法:不会有moment等信息的丢失
-#            for param_group in optimizer.param_groups:
-#                param_group['lr'] = lr
-#        print('epoch:{}, lr{}'.format(epoch, lr))
-#        previous_loss = loss_meter.value()[0]
     
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))

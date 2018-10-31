@@ -6,7 +6,7 @@ Created on Tue Oct 23 14:55:43 2018
 @author: ubuntu
 """
 
-class DefaultConfig(object):  # 这个object作用是？？？
+class DefaultConfig(object):
     
     model = 'vgg'
     
