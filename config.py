@@ -8,7 +8,7 @@ Created on Tue Oct 23 14:55:43 2018
 
 class DefaultConfig(object):
     
-    model = 'vgg'
+    model = 'resnet'
     
     train_data_root = '/home/ubuntu/MyDatasets/DogsVSCats/train/'
     test_data_root = '/home/ubuntu/MyDatasets/DogsVSCats/test/'

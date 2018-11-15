@@ -93,8 +93,8 @@ def train(**kwargs):
     num_classes = 2
     
 #    model = AlexNet(num_classes= num_classes)
-#    model = ResNet34(num_classes = num_classes)
-    model = VGG16(num_classes = num_classes)
+    model = ResNet34(num_classes = num_classes)
+#    model = VGG16(num_classes = num_classes)
 #    model = PretrainedModels('vgg16', num_classes = num_classes)
     
     
@@ -161,11 +161,11 @@ def train(**kwargs):
             
             optimizer.zero_grad()
             
-            outputs = model(inputs)             # 计算输出在每个类的概率
-            loss = criterion(outputs, labels)
+            outputs = model(inputs)             # 隐式调用forward()函数(通过module的__call__()函数实现)
+            loss = criterion(outputs, labels)   # 独立计算loss的值
             
-            loss.backward()                     # 计算
-            optimizer.step()                    #  
+            loss.backward()                     # 独立计算loss之下的所有变量的梯度值
+            optimizer.step()                    # 独立更新所有参数的值
 
             # 更新平均损失和混淆矩阵
             loss_meter.add(loss.item())  # loss_meter是对每个batch的平均loss累加
